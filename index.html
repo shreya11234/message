@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Good Morning, My Love 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --rose: #f4a0b5;
+    --blush: #fde8ee;
+    --gold: #e8c97a;
+    --deep: #2a1a2e;
+    --cream: #fff9f5;
+    --mauve: #c77d9a;
+  }
+
+  body {
+    background: var(--deep);
+    font-family: 'Raleway', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 12px; height: 12px;
+    background: var(--rose);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, background 0.3s;
+    mix-blend-mode: screen;
+  }
+  .cursor-trail {
+    position: fixed;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    opacity: 0.6;
+    transition: left 0.15s ease, top 0.15s ease;
+  }
+
+  /* Sky background */
+  .sky {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg,
+      #1a0a2e 0%,
+      #2d1b4e 20%,
+      #7b3565 40%,
+      #e8805a 60%,
+      #f4a05a 75%,
+      #fde8a0 90%,
+      #fff5d0 100%
+    );
+    z-index: 0;
+    animation: skyShift 8s ease-out forwards;
+  }
+
+  @keyframes skyShift {
+    0% { filter: brightness(0.2); }
+    30% { filter: brightness(0.5); }
+    100% { filter: brightness(1); }
+  }
+
+  /* Stars */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    animation: starsfade 5s ease-out forwards;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: 0.3; transform: scale(1); }
+    to { opacity: 1; transform: scale(1.3); }
+  }
+  @keyframes starsfade {
+    0% { opacity: 1; }
+    60% { opacity: 0.8; }
+    100% { opacity: 0; }
+  }
+
+  /* Sun */
+  .sun {
+    position: fixed;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px; height: 160px;
+    background: radial-gradient(circle at 40% 40%, #fff5a0, #f4c430, #e8803a);
+    border-radius: 50%;
+    box-shadow:
+      0 0 60px 20px rgba(248,200,80,0.6),
+      0 0 120px 60px rgba(248,160,60,0.3),
+      0 0 200px 100px rgba(248,120,40,0.15);
+    z-index: 2;
+    animation: sunRise 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  @keyframes sunRise {
+    0% { bottom: -80px; opacity: 0.3; }
+    30% { opacity: 1; }
+    100% { bottom: 15%; }
+  }
+
+  /* Sun rays */
+  .sun-rays {
+    position: absolute;
+    inset: -40px;
+    animation: spinRays 20s linear infinite;
+  }
+  @keyframes spinRays { to { transform: rotate(360deg); } }
+  .ray {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 200px; height: 2px;
+    background: linear-gradient(to right, rgba(255,220,80,0.8), transparent);
+    transform-origin: 0 50%;
+    opacity: 0.5;
+  }
+
+  /* Mountains / horizon silhouette */
+  .horizon {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 200px;
+    z-index: 3;
+  }
+  .horizon svg { width: 100%; height: 100%; }
+
+  /* Floating petals */
+  .petals-container {
+    position: fixed;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .petal {
+    position: absolute;
+    top: -30px;
+    font-size: 20px;
+    animation: petalFall linear infinite;
+    opacity: 0.85;
+  }
+  @keyframes petalFall {
+    0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 1; }
+    50% { transform: translateY(50vh) rotate(180deg) translateX(30px); }
+    100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; }
+  }
+
+  /* Fireflies */
+  .firefly {
+    position: fixed;
+    width: 5px; height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 8px 2px rgba(232,201,122,0.8);
+    animation: fireflyFloat linear infinite;
+    z-index: 4;
+    pointer-events: none;
+  }
+  @keyframes fireflyFloat {
+    0% { opacity: 0; transform: translate(0,0) scale(0.5); }
+    25% { opacity: 1; }
+    50% { opacity: 0.5; transform: translate(var(--dx), var(--dy)) scale(1); }
+    75% { opacity: 1; }
+    100% { opacity: 0; transform: translate(calc(var(--dx)*2), calc(var(--dy)*2)) scale(0.5); }
+  }
+
+  /* Main content */
+  .content {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px 120px;
+    text-align: center;
+  }
+
+  .greeting-pre {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 3s;
+    margin-bottom: 12px;
+  }
+
+  .greeting-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 3.5s;
+    text-shadow: 0 0 80px rgba(244,160,181,0.5);
+    margin-bottom: 8px;
+  }
+
+  .greeting-main em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .heart-divider {
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: heartBeat 1.5s ease forwards 4.2s, pulse 2s ease-in-out 5.7s infinite;
+    display: block;
+    margin: 20px 0;
+  }
+  @keyframes heartBeat {
+    0% { opacity: 0; transform: scale(0); }
+    60% { transform: scale(1.3); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  .message {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,249,245,0.85);
+    max-width: 580px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 4.8s;
+    margin-bottom: 30px;
+  }
+
+  .sub-message {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.75rem, 2vw, 0.9rem);
+    color: rgba(255,249,245,0.55);
+    letter-spacing: 0.2em;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 5.8s;
+    margin-bottom: 50px;
+  }
+
+  /* Quote card */
+  .quote-card {
+    background: rgba(255,249,245,0.08);
+    border: 1px solid rgba(244,160,181,0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 2px;
+    padding: 28px 36px;
+    max-width: 500px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 6.5s;
+  }
+  .quote-card p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    color: var(--blush);
+    line-height: 1.9;
+    font-style: italic;
+  }
+  .quote-card .attr {
+    display: block;
+    margin-top: 14px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    font-style: normal;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  /* Time display */
+  .time-display {
+    position: fixed;
+    top: 30px;
+    right: 36px;
+    text-align: right;
+    z-index: 20;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 7.5s;
+  }
+  .clock {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+  }
+  .date-str {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  /* Name top left */
+  .top-name {
+    position: fixed;
+    top: 30px;
+    left: 36px;
+    z-index: 20;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 7.5s;
+  }
+  .top-name span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--rose);
+    letter-spacing: 0.1em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Birds */
+  .bird {
+    position: fixed;
+    font-size: 1.2rem;
+    z-index: 5;
+    animation: birdFly linear forwards;
+    pointer-events: none;
+  }
+  @keyframes birdFly {
+    from { transform: translateX(-50px); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    to { transform: translateX(110vw); opacity: 0; }
+  }
+
+  /* Clouds */
+  .cloud {
+    position: fixed;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.3;
+    font-size: 4rem;
+    animation: cloudDrift linear infinite;
+  }
+  @keyframes cloudDrift {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(110vw); }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
+
+<!-- Sky -->
+<div class="sky"></div>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Sun -->
+<div class="sun">
+  <div class="sun-rays" id="sunRays"></div>
+</div>
+
+<!-- Horizon silhouette -->
+<div class="horizon">
+  <svg viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,200 L0,140 Q80,90 160,120 Q240,150 320,100 Q400,60 480,90 Q560,120 640,80 Q720,40 800,75 Q880,110 960,85 Q1040,60 1120,90 Q1200,120 1280,100 Q1360,80 1440,110 L1440,200 Z" fill="#1a0d2e" opacity="0.8"/>
+    <path d="M0,200 L0,160 Q100,140 200,155 Q300,170 400,145 Q500,120 600,150 Q700,170 800,155 Q900,140 1000,160 Q1100,175 1200,162 Q1320,150 1440,165 L1440,200 Z" fill="#120820" opacity="0.9"/>
+  </svg>
+</div>
+
+<!-- Petals -->
+<div class="petals-container" id="petals"></div>
+
+<!-- Top UI -->
+<div class="top-name"><span>For you, always ♡</span></div>
+<div class="time-display">
+  <div class="clock" id="clock">00:00</div>
+  <div class="date-str" id="dateStr"></div>
+</div>
+
+<!-- Main content -->
+<div class="content">
+  <div class="greeting-pre">You are my Sunrise —</div>
+  <h1 class="greeting-main">Good <em>Morning,</em><br>My Harshree</h1>
+  <span class="heart-divider">🌸</span>
+  <p class="message">
+    "Before the world wakes, before the birds sing,<br>
+    my very first thought — as it always is —<br>
+    is simply, quietly, beautifully… <em>you.</em>"
+  </p>
+  <p class="sub-message">Every sunrise is more golden because you exist in it</p>
+  <div class="quote-card">
+    <p>
+      "You are the warmth before I've had my coffee,<br>
+      the light I didn't know I was missing,<br>
+      the reason mornings feel like a gift."
+    </p>
+    <span class="attr">— written with love, Your Harshu</span>
+  </div>
+</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const trail = document.getElementById('cursorTrail');
+  let mx = 0, my = 0, tx = 0, ty = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  setInterval(() => {
+    tx += (mx - tx) * 0.25;
+    ty += (my - ty) * 0.25;
+    trail.style.left = tx + 'px';
+    trail.style.top = ty + 'px';
+  }, 16);
+
+  // Stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      left:${Math.random()*100}%;
+      top:${Math.random()*70}%;
+      width:${sz}px; height:${sz}px;
+      animation-delay:${Math.random()*2}s;
+      animation-duration:${1.5+Math.random()*2}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // Sun rays
+  const raysEl = document.getElementById('sunRays');
+  for (let i = 0; i < 12; i++) {
+    const r = document.createElement('div');
+    r.className = 'ray';
+    r.style.transform = `rotate(${i*30}deg)`;
+    raysEl.appendChild(r);
+  }
+
+  // Petals
+  const petalEmojis = ['🌸','🌺','🌼','🍃','✿'];
+  const petalsEl = document.getElementById('petals');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      font-size:${14+Math.random()*16}px;
+      animation-duration:${6+Math.random()*8}s;
+      animation-delay:${Math.random()*10}s;
+      opacity:${0.5+Math.random()*0.5};
+    `;
+    petalsEl.appendChild(p);
+  }
+
+  // Fireflies
+  for (let i = 0; i < 12; i++) {
+    const f = document.createElement('div');
+    f.className = 'firefly';
+    const dx = (Math.random()-0.5)*200;
+    const dy = (Math.random()-0.5)*200;
+    f.style.cssText = `
+      left:${Math.random()*100}vw;
+      top:${Math.random()*100}vh;
+      --dx:${dx}px; --dy:${dy}px;
+      animation-duration:${4+Math.random()*6}s;
+      animation-delay:${Math.random()*5}s;
+    `;
+    document.body.appendChild(f);
+  }
+
+  // Birds — appear after sunrise
+  function spawnBird() {
+    const b = document.createElement('div');
+    b.className = 'bird';
+    b.textContent = '🐦';
+    b.style.cssText = `
+      top:${10+Math.random()*30}%;
+      left:0;
+      animation-duration:${8+Math.random()*5}s;
+      animation-delay:${Math.random()*2}s;
+      font-size:${0.8+Math.random()*0.8}rem;
+    `;
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), 14000);
+  }
+  setTimeout(() => {
+    spawnBird();
+    setTimeout(spawnBird, 2000);
+    setTimeout(spawnBird, 4500);
+    setInterval(spawnBird, 8000);
+  }, 5000);
+
+  // Clouds
+  const cloudTypes = ['☁️','🌤️'];
+  for (let i = 0; i < 4; i++) {
+    const c = document.createElement('div');
+    c.className = 'cloud';
+    c.textContent = cloudTypes[i%2];
+    c.style.cssText = `
+      top:${5+Math.random()*25}%;
+      left:-200px;
+      font-size:${3+Math.random()*3}rem;
+      opacity:${0.15+Math.random()*0.2};
+      animation-duration:${60+Math.random()*60}s;
+      animation-delay:${Math.random()*30}s;
+    `;
+    document.body.appendChild(c);
+  }
+
+  // Clock
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2,'0');
+    const m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('clock').textContent = `${h}:${m}`;
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('dateStr').textContent =
+      `${days[now.getDay()]}  ·  ${months[now.getMonth()]} ${now.getDate()}`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Sparkle on click
+  document.addEventListener('click', e => {
+    const sparks = ['✨','💫','🌸','💕','⭐'];
+    for (let i = 0; i < 6; i++) {
+      const sp = document.createElement('div');
+      sp.style.cssText = `
+        position:fixed;
+        left:${e.clientX}px;
+        top:${e.clientY}px;
+        pointer-events:none;
+        z-index:9999;
+        font-size:${12+Math.random()*14}px;
+        animation: sparkleOut 1s ease forwards;
+      `;
+      sp.textContent = sparks[Math.floor(Math.random()*sparks.length)];
+      const style = document.createElement('style');
+      const angle = Math.random()*360;
+      const dist = 40+Math.random()*60;
+      const dx = Math.cos(angle*Math.PI/180)*dist;
+      const dy = Math.sin(angle*Math.PI/180)*dist;
+      style.textContent = `@keyframes sparkleOut{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(${dx}px,${dy}px) scale(0)}}`;
+      document.head.appendChild(style);
+      document.body.appendChild(sp);
+      setTimeout(() => { sp.remove(); style.remove(); }, 1000);
+    }
+  });
+</script>
+</body>
+</html>
